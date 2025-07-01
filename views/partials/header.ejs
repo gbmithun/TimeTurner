@@ -1,0 +1,13 @@
+<header class="p-4 bg-black text-white text-center text-xl font-semibold shadow">
+  TimeTurner
+</header>
+<nav class="flex justify-end items-center gap-4 p-4">
+  <% if (user) { %>
+    <span class="font-semibold"><%= user.name %></span>
+    <a href="/wishlist" class="text-blue-500 hover:underline">Wishlist</a>
+    <a href="/logout" class="text-gray-500 hover:underline">Logout</a>
+  <% } else { %>
+    <a href="/login" class="text-gray-500 hover:underline">Login</a>
+    <a href="/signup" class="text-gray-500 hover:underline">Sign Up</a>
+  <% } %>
+</nav>

@@ -1,0 +1,42 @@
+<!-- views/admin-edit-watch.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Watch | Admin</title>
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white p-8">
+  <a href="/admin/watch-list" class="text-blue-400 underline mb-4 inline-block">Back to Watch List</a>
+  <h1 class="text-3xl font-bold mb-6">Edit Watch</h1>
+  <form method="POST" action="/admin/edit-watch/<%= watch._id %>">
+    <input name="title" value="<%= watch.title %>" placeholder="Title" required class="p-2 text-black"/>
+    <input name="brand" value="<%= watch.brand %>" placeholder="Brand" required class="p-2 text-black"/>
+    <input name="model" value="<%= watch.model %>" placeholder="Model" class="p-2 text-black"/>
+    <input name="movement" value="<%= watch.movement %>" placeholder="Movement" class="p-2 text-black"/>
+    <input name="complicationlevel" value="<%= watch.complicationlevel %>" placeholder="Complication Level" class="p-2 text-black"/>
+    <input name="complications" value="<%= watch.complications ? watch.complications.join(', ') : '' %>" placeholder="Complications (comma-separated)" class="p-2 text-black"/>
+    <input name="purpose" value="<%= watch.purpose %>" placeholder="Purpose" class="p-2 text-black"/>
+    <input name="dialColor" value="<%= watch.dialColor %>" placeholder="Dial Color" class="p-2 text-black"/>
+    <input name="dialStyle" value="<%= watch.dialStyle %>" placeholder="Dial Style" class="p-2 text-black"/>
+    <input name="numerals" value="<%= watch.numerals %>" placeholder="Numerals" class="p-2 text-black"/>
+    <input name="hands" value="<%= watch.hands %>" placeholder="Hands" class="p-2 text-black"/>
+    <input name="strap" value="<%= watch.strap %>" placeholder="Strap" class="p-2 text-black"/>
+    <input name="strapColor" value="<%= watch.strapColor %>" placeholder="Strap Color" class="p-2 text-black"/>
+    <input name="quickRelease" value="<%= watch.quickRelease %>" placeholder="Quick Release" class="p-2 text-black"/>
+    <input name="material" value="<%= watch.material %>" placeholder="Material" class="p-2 text-black"/>
+    <input name="caseSize" value="<%= watch.caseSize %>" placeholder="Case Size" class="p-2 text-black"/>
+    <input name="water" value="<%= watch.water %>" placeholder="Water Resistance" class="p-2 text-black"/>
+    <input name="magnetic" value="<%= watch.magnetic %>" placeholder="Magnetic" class="p-2 text-black"/>
+    <input name="shock" value="<%= watch.shock %>" placeholder="Shock" class="p-2 text-black"/>
+    <input name="helium" value="<%= watch.helium %>" placeholder="Helium" class="p-2 text-black"/>
+    <input name="price" value="<%= watch.price %>" placeholder="Price" type="number" class="p-2 text-black"/>
+    <input name="image" value="<%= watch.image %>" placeholder="Image URL" class="p-2 text-black"/>
+    <input name="link" value="<%= watch.link %>" placeholder="Product Link" class="p-2 text-black"/>
+    <button type="submit" class="col-span-full bg-blue-600 text-white px-4 py-2 mt-4 rounded">Save Changes</button>
+  </form>
+  <a href="/admin/edit-watch/<%= watch._id %>" class="text-blue-400 underline mt-4 inline-block">Edit</a>
+  <form method="POST" action="/admin/delete-watch/<%= watch._id %>" class="inline-block">
+    <button type="submit" class="bg-red-600 text-white px-4 py-2 mt-4 rounded">Delete Watch</button>
+  </form>
+</body>
+</html>

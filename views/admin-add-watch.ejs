@@ -1,0 +1,38 @@
+<!-- filepath: views/admin-add-watch.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Watch | Admin</title>
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white p-8">
+  <a href="/admin/watch-list" class="text-blue-400 underline mb-4 inline-block">Back to Watch List</a>
+  <h1 class="text-3xl font-bold mb-6">Add a New Watch</h1>
+  <form method="POST" action="/admin/add-watch" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <input name="title" placeholder="Title" required class="p-2 text-black"/>
+    <input name="brand" placeholder="Brand" required class="p-2 text-black"/>
+    <input name="model" placeholder="Model" class="p-2 text-black"/>
+    <input name="movement" placeholder="Movement" class="p-2 text-black"/>
+    <input name="complicationlevel" placeholder="Complication Level" class="p-2 text-black"/>
+    <input name="complications" placeholder="Complications (comma-separated)" class="p-2 text-black"/>
+    <input name="purpose" placeholder="Purpose" class="p-2 text-black"/>
+    <input name="dialColor" placeholder="Dial Color" class="p-2 text-black"/>
+    <input name="dialStyle" placeholder="Dial Style" class="p-2 text-black"/>
+    <input name="numerals" placeholder="Numerals" class="p-2 text-black"/>
+    <input name="hands" placeholder="Hands" class="p-2 text-black"/>
+    <input name="strap" placeholder="Strap" class="p-2 text-black"/>
+    <input name="strapColor" placeholder="Strap Color" class="p-2 text-black"/>
+    <input name="quickRelease" placeholder="Quick Release" class="p-2 text-black"/>
+    <input name="material" placeholder="Material" class="p-2 text-black"/>
+    <input name="caseSize" placeholder="Case Size" class="p-2 text-black"/>
+    <input name="water" placeholder="Water Resistance" class="p-2 text-black"/>
+    <input name="magnetic" placeholder="Magnetic" class="p-2 text-black"/>
+    <input name="shock" placeholder="Shock" class="p-2 text-black"/>
+    <input name="helium" placeholder="Helium" class="p-2 text-black"/>
+    <input name="price" placeholder="Price" type="number" class="p-2 text-black"/>
+    <input name="image" placeholder="Image URL" class="p-2 text-black"/>
+    <input name="link" placeholder="Product Link" class="p-2 text-black"/>
+    <button type="submit" class="col-span-full bg-blue-600 text-white px-4 py-2 mt-4 rounded">Add Watch</button>
+  </form>
+</body>
+</html>

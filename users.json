@@ -1,0 +1,17 @@
+[
+  {
+    "username": "mithun",
+    "email": "mithunbhuperder@gmail.com",
+    "password": "$2b$12$OozsiYqP05wVMcQyYXJLu.qHwoYZd.nOrKYhltsSW.RAWtPn5GGje",
+    "resetToken": "746d03d731bb95e5c6c840402f2b75c086ed8ed9c901fd5a6e03dae8099f5468",
+    "resetTokenExpiry": 1751104116143,
+    "resetOTP": null,
+    "resetOTPExpiry": null,
+    "wishlist": [
+      "4",
+      "8",
+      "5",
+      "1"
+    ]
+  }
+]

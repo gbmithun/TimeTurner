@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Your Wishlist | TimeTurner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Cinzel', serif; }
+    .font-cinzel { font-family: 'Cinzel', serif; }
+    @media (max-width: 639px) {
+      .watch-card {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: stretch !important;
+        height: 170px !important;
+        min-height: 170px !important;
+        margin-bottom: 0.75rem;
+        box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08);
+        background: #fff;
+        padding: 0 !important;
+      }
+      .watch-img-container {
+        width: 38% !important;
+        min-width: 38% !important;
+        height: 100% !important;
+        background: #f3f4f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+      .watch-img-container img {
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+      }
+      .watch-content {
+        width: 62% !important;
+        min-width: 62% !important;
+        height: 100%;
+        padding: 0.7rem 0.7rem 0.7rem 0.7rem !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .watch-card .flex {
+        flex-direction: column !important;
+        align-items: center !important;
+        margin-top: 0.4rem !important;
+        padding: 0 !important;
+        gap: 0.4rem !important;
+        width: 100%;
+      }
+      .wishlist-toggle-btn, .compare-toggle-btn, .watch-content form button {
+        width: 90% !important;
+        min-width: 0 !important;
+        font-size: 1rem !important;
+        padding: 0.38rem 0.7rem !important;
+        border-width: 1.2px !important;
+        text-align: center !important;
+        margin: 0 auto !important;
+      }
+    }
+    @media (min-width: 640px) {
+      .watch-card {
+        flex-direction: column !important;
+        min-height: 0;
+        height: auto;
+        width: 100%;
+        max-width: 100%;
+      }
+      .watch-img-container {
+        width: 100%;
+        height: 220px;
+        min-width: unset;
+        max-width: unset;
+        padding-right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .watch-img-container img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+      }
+      .watch-content {
+        width: 100%;
+        padding: 1rem 1.25rem 1.25rem 1.25rem;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    /* Desktop: vertical card, image on top, content below */
+    .watch-card {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 8px 0 rgba(0,0,0,0.07);
+      overflow: hidden;
+      margin-bottom: 1rem;
+      min-width: 0;
+      max-width: 100%;
+      height: 370px;
+    }
+    .watch-img-container {
+      background: #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-width: 0;
+      height: 180px;
+    }
+    .watch-img-container a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+    .watch-img-container img {
+      max-width: 100%;
+      max-height: 90%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+    .watch-content {
+      width: 100%;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      padding: 1rem 1.25rem 1.25rem 1.25rem;
+      flex: 1 1 auto;
+      height: auto;
+    }
+    .watch-content > .flex {
+      flex-direction: row;
+      justify-content: center;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    /* MOBILE: image top, content & buttons below, overlay style */
+    @media (max-width: 639px) {
+  .watch-card {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    height: 170px !important;
+    min-height: 170px !important;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08);
+    background: #fff;
+    padding: 0 !important;
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+  .watch-img-container {
+    width: 38% !important;
+    min-width: 38% !important;
+    height: 100% !important;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .watch-img-container img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+  .watch-content {
+    width: 62% !important;
+    min-width: 62% !important;
+    height: 100%;
+    padding: 0.5rem 0.7rem 0.5rem 0.7rem !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    overflow: visible !important;
+  }
+  .watch-content > a > div {
+    font-size: 1.05rem !important;
+    margin-bottom: 0.12rem !important;
+    text-align: center !important;
+    white-space: normal !important;
+    display: block !important;
+  }
+  .watch-content > a .text-lg {
+    font-size: 1.1rem !important;
+    margin-bottom: 0.12rem !important;
+    text-align: center !important;
+  }
+  .watch-content > a .text-xs {
+    font-size: 0.75rem !important;
+    text-align: center !important;
+  }
+  .watch-content > .flex {
+    flex-direction: column !important;
+    align-items: center !important;
+    margin-top: 0.3rem !important;
+    padding: 0 !important;
+    gap: 0.3rem !important;
+    width: 100%;
+  }
+  .wishlist-toggle-btn, .compare-toggle-btn, .watch-content form button {
+    width: 90% !important;
+    min-width: 0 !important;
+    font-size: 1rem !important;
+    padding: 0.38rem 0.7rem !important;
+    border-width: 1.2px !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+}
+  </style>
+</head>
+<body class="bg-black bg-opacity-80 min-h-screen flex flex-col text-white relative overflow-x-hidden">
+
+  <!-- Background Video -->
+  <video class="fixed top-0 left-0 w-full h-full object-cover -z-10" autoplay muted loop playsinline id="bg-video">
+    <source src="/videos/hero-bg.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <!-- Dim overlay for clarity -->
+  <div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 pointer-events-none -z-10"></div>
+
+  <!-- Header -->
+  <header class="w-full px-6 py-4 flex justify-between items-center bg-black bg-opacity-50 backdrop-blur-sm text-white fixed top-0 left-0 z-20">
+    <a href="/" class="text-3xl md:text-4xl font-extrabold tracking-wide font-cinzel text-white drop-shadow">
+      TimeTurner
+    </a>
+    <div class="hidden md:flex items-center gap-4">
+      <nav class="hidden md:flex gap-6 text-white">
+        <a href="/" class="hover:text-gray-200 transition text-white">Home</a>
+        <a href="/explore" class="hover:text-gray-200 transition text-white">Explore</a>
+        <a href="/customize" class="hover:text-gray-200 transition text-white">Customize</a>
+        <a href="/blog" class="hover:text-gray-200 transition text-white">Blog</a>
+        <a href="/compare" class="hover:text-gray-200 transition">Compare</a>
+        <a href="/wishlist" class="hover:text-gray-200 transition">Wishlist</a>
+      </nav>
+      <% if (user) { %>
+        <div class="relative group">
+          <button id="profile-btn" class="w-10 h-10 rounded-full bg-white text-black font-bold flex items-center justify-center shadow-md hover:ring-2 hover:ring-white transition focus:outline-none">
+            <%= user.username.charAt(0).toUpperCase() %>
+          </button>
+          <div id="profile-dropdown" class="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-md hidden z-50">
+            <div class="px-4 py-2 text-sm border-b border-gray-200"><%= user.username %></div>
+            <a href="/logout" class="block px-4 py-2 text-sm hover:bg-gray-100">Logout</a>
+          </div>
+        </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('profile-btn');
+            const dropdown = document.getElementById('profile-dropdown');
+            document.addEventListener('click', function(e) {
+              if (btn && btn.contains(e.target)) {
+                dropdown.classList.toggle('hidden');
+              } else if (dropdown && !dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+              }
+            });
+          });
+        </script>
+      <% } else { %>
+        <a href="/login" class="hover:text-gray-200 transition text-white">Login/Signup</a>
+      <% } %>
+    </div>
+    <!-- Hamburger Button (Mobile) -->
+    <button id="menu-btn" class="md:hidden flex flex-col justify-center items-center w-10 h-10 focus:outline-none" aria-label="Open Menu">
+      <span class="block w-6 h-0.5 bg-white mb-1"></span>
+      <span class="block w-6 h-0.5 bg-white mb-1"></span>
+      <span class="block w-6 h-0.5 bg-white"></span>
+    </button>
+  </header>
+  <!-- Mobile Dropdown Menu -->
+  <div id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-40 flex-col items-center justify-center hidden">
+    <button id="close-mobile-menu" class="absolute top-6 right-6 text-white text-3xl font-bold">&times;</button>
+    <nav class="flex flex-col gap-8 items-center justify-center h-full text-2xl font-semibold text-white">
+      <a href="/" class="hover:text-gray-300 transition" onclick="closeMenu()">Home</a>
+      <a href="/explore" class="hover:text-gray-300 transition" onclick="closeMenu()">Explore</a>
+      <a href="/customize" class="hover:text-gray-300 transition" onclick="closeMenu()">Customize</a>
+      <a href="/blog" class="hover:text-gray-300 transition" onclick="closeMenu()">Blog</a>
+      <a href="/compare" class="hover:text-gray-300 transition" onclick="closeMenu()">Compare</a>
+      <a href="/wishlist" class="hover:text-gray-300 transition" onclick="closeMenu()">Wishlist</a>
+      <!-- Auth/User Block for mobile -->
+      <div class="flex flex-col items-center gap-2 mt-8">
+        <% if (user) { %>
+          <div class="flex flex-col items-center gap-1">
+            <div class="w-12 h-12 rounded-full bg-white text-black font-bold flex items-center justify-center shadow-md text-xl">
+              <%= user.username.charAt(0).toUpperCase() %>
+            </div>
+            <span class="text-base font-semibold"><%= user.username %></span>
+            <a href="/logout" class="text-white hover:text-gray-300 transition text-sm" onclick="closeMenu()">Logout</a>
+          </div>
+        <% } else { %>
+          <a href="/login" class="text-white hover:text-gray-300 transition" onclick="closeMenu()">Login/Signup</a>
+        <% } %>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Wishlist Content -->
+  <main class="min-h-[100vh] flex-1 pt-32 pb-16 px-2">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-3xl font-bold mb-8 text-center font-cinzel">Your Wishlist</h1>
+      <% if (watches.length === 0) { %>
+        <div class="bg-white bg-opacity-10 rounded p-8 text-center text-gray-300 shadow">
+          Your wishlist is empty. <a href="/explore" class="text-blue-300 hover:underline">Explore watches</a> to get started.
+        </div>
+      <% } else { %>
+        <!-- Watch Grid: 5 columns on xl, styled like explore -->
+        <div id="watch-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <% watches.forEach(watch => { %>
+            <div class="watch-card bg-white rounded-xl shadow hover:ring-2 hover:ring-black transition-all duration-200">
+              <div class="watch-img-container">
+                <a href="<%= watch.link %>">
+                  <img src="<%= watch.image %>" alt="<%= watch.brand %> <%= watch.model %>">
+                </a>
+              </div>
+              <div class="watch-content">
+                <a href="<%= watch.link %>" style="text-decoration:none; color:inherit; display:block; width:100%">
+                  <div class="text-lg font-semibold text-gray-800 mb-1 text-center"><%= watch.brand %> <%= watch.model %></div>
+                  <div class="text-gray-500 text-xs mb-1 text-center"><%= watch.movement %></div>
+                  <div class="text-lg font-semibold text-gray-800 mb-1 text-center">$<%= watch.price %></div>
+                </a>
+                <div class="flex gap-1 w-full justify-center mt-2 px-3 pb-3">
+                  <form method="POST" action="/wishlist/remove/<%= watch.id %>" class="inline">
+                    <button class="px-2 py-1 border border-black rounded font-semibold text-xs wishlist-toggle-btn bg-white text-black hover:bg-black hover:text-white" type="submit">
+                      Remove
+                    </button>
+                  </form>
+                  <button
+                    class="px-2 py-1 border border-black rounded font-semibold text-xs compare-toggle-btn bg-white text-black hover:bg-black hover:text-white"
+                    data-watch-id="<%= watch.id %>"
+                    data-in-compare="compare"
+                  >
+                    Compare
+                  </button>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+      <div class="mt-8 text-center">
+        <a href="/explore" class="text-blue-300 hover:underline">&larr; Back to Explore</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+<!-- ...existing code... -->
+
+<footer class="w-full bg-black bg-opacity-50 backdrop-blur-sm text-white px-6 py-10 mt-12 text-sm">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 mb-6 text-center sm:text-left">
+    <!-- Left: Brand & Nav -->
+    <div>
+      <h2 class="text-xl font-semibold mb-2 font-cinzel">TimeTurner</h2>
+      <ul class="space-y-1">
+        <li><a href="/" class="hover:underline">Home</a></li>
+        <li><a href="/explore" class="hover:underline">Explore</a></li>
+        <li><a href="/customize" class="hover:underline">Customize</a></li>
+        <li><a href="/compare" class="hover:underline">Compare</a></li>
+        <li><a href="/wishlist" class="hover:underline">Wishlist</a></li>
+        <li><a href="/blog" class="hover:underline">Blog</a></li>
+      </ul>
+    </div>
+    <!-- Center: Newsletter -->
+    <div>
+      <h2 class="text-xl font-semibold mb-2 font-cinzel justify-center">Newsletter</h2>
+      <p class="text-gray-300 mb-3 justify-center">Stay Updated on New Arrivals and Watch Trends.</p>
+      <form class="flex flex-col sm:flex-row gap-2 justify-center">
+        <input type="email" placeholder="Your email" class="px-3 py-2 rounded text-black w-full sm:w-auto" />
+        <button type="submit" class="bg-white text-black font-semibold px-4 py-2 rounded hover:bg-gray-200">Subscribe</button>
+      </form>
+    </div>
+    <!-- Right: More -->
+    <div>
+      <h2 class="text-xl font-semibold mb-2 font-cinzel">More</h2>
+      <ul class="space-y-1">
+        <li><a href="/about" class="hover:underline">About</a></li>
+        <li><a href="/terms" class="hover:underline">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- Bottom Bar -->
+  <div class="border-t border-gray-500 pt-4 text-center text-xs text-gray-300">
+    © 2025 <span class="font-semibold font-cinzel">TimeTurner</span>. All rights reserved.
+  </div>
+</footer>
+  <script>
+    // Hamburger menu toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeMobileMenu = document.getElementById('close-mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    closeMobileMenu.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+    });
+    function closeMenu() {
+      mobileMenu.classList.add('hidden');
+    }
+
+    document.querySelectorAll('.compare-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const watchId = this.getAttribute('data-watch-id');
+        const inCompare = this.getAttribute('data-in-compare') === 'added';
+        fetch(`/compare/${inCompare ? 'remove' : 'add'}/${watchId}`, {
+          method: 'POST',
+          headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(res => {
+          if (res.ok) {
+            this.textContent = inCompare ? 'Compare' : 'Added to Compare';
+            this.setAttribute('data-in-compare', inCompare ? 'compare' : 'added');
+            this.classList.toggle('bg-blue-600', !inCompare);
+            this.classList.toggle('bg-white', inCompare);
+            this.classList.toggle('text-black', inCompare);
+            this.classList.toggle('text-white', !inCompare);
+            this.classList.toggle('hover:bg-black', inCompare);
+            this.classList.toggle('hover:text-white', inCompare);
+            this.classList.toggle('cursor-not-allowed', false);
+          } else if (res.status === 401) {
+            window.location = '/login';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

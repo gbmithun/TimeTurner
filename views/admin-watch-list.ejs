@@ -1,0 +1,37 @@
+<!-- views/admin-watch-list.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Watch List</title>
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white p-8">
+  <h1 class="text-3xl font-bold mb-6">All Watches</h1>
+  <a href="/admin/add-watch" class="bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block">Add New Watch</a>
+  <table class="w-full text-left mt-4">
+    <thead>
+      <tr>
+        <th class="p-2">ID</th>
+        <th class="p-2">Title</th>
+        <th class="p-2">Brand</th>
+        <th class="p-2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% watches.forEach(watch => { %>
+        <tr class="border-b border-gray-700">
+          <td class="p-2"><%= watch._id %></td>
+          <td class="p-2"><%= watch.title %></td>
+          <td class="p-2"><%= watch.brand %></td>
+          <td class="p-2">
+            <a href="/admin/edit-watch/<%= watch._id %>" class="text-blue-400 underline">Edit</a>
+            <form method="POST" action="/admin/delete-watch/<%= watch._id %>" style="display:inline;">
+              <button type="submit" class="text-red-400 underline ml-2" onclick="return confirm('Delete this watch?')">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Explore Watches - Timeturner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Cinzel', serif; }
+    .font-cinzel { font-family: 'Cinzel', serif; }
+  </style>
+</head>
+<body class="relative bg-black bg-opacity-80 min-h-screen overflow-x-hidden">
+
+  <!-- Background Video (dimmer overlay) -->
+  <video class="fixed top-0 left-0 w-full h-full object-cover -z-10" autoplay muted loop playsinline id="bg-video">
+    <source src="/videos/hero-bg.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 pointer-events-none -z-10"></div>
+
+  <!-- Header -->
+  <header class="fixed top-0 left-0 w-full z-10 px-6 py-4 flex justify-between items-center bg-black bg-opacity-50 backdrop-blur-sm text-white">
+    <h1 class="text-3xl md:text-4xl font-extrabold tracking-wide drop-shadow font-cinzel text-white">
+      TimeTurner
+    </h1>
+
+    <!-- Hamburger for mobile -->
+    <button id="mobile-menu-btn" class="md:hidden flex flex-col justify-center items-center w-10 h-10 focus:outline-none" aria-label="Open menu">
+      <span class="block w-7 h-1 bg-white mb-1 rounded"></span>
+      <span class="block w-7 h-1 bg-white mb-1 rounded"></span>
+      <span class="block w-7 h-1 bg-white rounded"></span>
+    </button>
+
+    
+    <div class="hidden md:flex items-center gap-4 ml-4">
+      <nav class="hidden md:flex gap-6 text-white">
+      <a href="/" class="hover:text-gray-200 transition text-white">Home</a>
+      <a href="/explore" class="hover:text-gray-200 transition text-white">Explore</a>
+      <a href="/customize" class="hover:text-gray-200 transition text-white">Customize</a>
+      <a href="/blog" class="hover:text-gray-200 transition text-white">Blog</a>
+      <a href="/compare" class="hover:text-gray-200 transition">Compare</a>
+      <a href="/wishlist" class="hover:text-gray-200 transition">Wishlist</a>
+    </nav>
+      <% if (user) { %>
+        <div class="relative group">
+          <button id="profile-btn" class="w-10 h-10 rounded-full bg-white text-black font-bold flex items-center justify-center shadow-md hover:ring-2 hover:ring-white transition focus:outline-none">
+            <%= user.username.charAt(0).toUpperCase() %>
+          </button>
+          <div id="profile-dropdown" class="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-md hidden z-50">
+            <div class="px-4 py-2 text-sm border-b border-gray-200"><%= user.username %></div>
+            <a href="/logout" class="block px-4 py-2 text-sm hover:bg-gray-100">Logout</a>
+          </div>
+        </div>
+        <script>
+          // Show/hide dropdown on click
+          document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('profile-btn');
+            const dropdown = document.getElementById('profile-dropdown');
+            document.addEventListener('click', function(e) {
+              if (btn.contains(e.target)) {
+                dropdown.classList.toggle('hidden');
+              } else if (!dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+              }
+            });
+          });
+        </script>
+      <% } else { %>
+        <a href="/login" class="hover:text-gray-200 transition text-white">Login/Signup</a>
+      <% } %>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Menu -->
+  <div id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-40 flex-col items-center justify-center hidden">
+    <button id="close-mobile-menu" class="absolute top-6 right-6 text-white text-3xl font-bold">&times;</button>
+    <nav class="flex flex-col gap-8 items-center justify-center h-full text-2xl font-semibold text-white">
+      <a href="/" class="hover:text-gray-300 transition" onclick="closeMenu()">Home</a>
+      <a href="/explore" class="hover:text-gray-300 transition" onclick="closeMenu()">Explore</a>
+      <a href="/customize" class="hover:text-gray-300 transition" onclick="closeMenu()">Customize</a>
+      <a href="/blog" class="hover:text-gray-300 transition" onclick="closeMenu()">Blog</a>
+      <a href="/compare" class="hover:text-gray-300 transition" onclick="closeMenu()">Compare</a>
+      <a href="/wishlist" class="hover:text-gray-300 transition" onclick="closeMenu()">Wishlist</a>
+      <!-- Auth/User Block for mobile -->
+      <div class="flex flex-col items-center gap-2 mt-8">
+        <% if (user) { %>
+          <span class="text-base">Welcome, <%= user.username %></span>
+          <a href="/logout" class="text-white hover:text-gray-300 transition">Logout</a>
+        <% } else { %>
+          <a href="/login" class="text-white hover:text-gray-300 transition">Login/Signup</a>
+        <% } %>
+      </div>
+    </nav>
+  </div>
+
+  <div class="pt-28 pb-16 px-2">
+    <div class="max-w-[95vw] mx-auto flex flex-col gap-4">
+      <!-- Filter Dropdown for Mobile/Tablet -->
+      <div class="md:hidden flex justify-end mb-4">
+        <button id="toggle-filter" class="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition font-semibold flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          Filters
+        </button>
+      </div>
+      <div class="flex flex-col md:flex-row gap-4">
+        <!-- Filter Panel -->
+        <aside id="filter-panel" class="w-full md:w-1/4 flex flex-col rounded-xl shadow p-6 mb-6 md:mb-0 min-h-[28rem] transition-all duration-300 md:block hidden custom-filter-bg relative">
+          <h2 class="text-2xl font-bold mb-4 font-cinzel text-black md:text-white">Filter Watches</h2>
+          <form method="GET" class="flex flex-col gap-4" id="filter-form">
+            <div class="relative w-full">
+              <input
+                id="search-box"
+                name="search"
+                type="text"
+                placeholder="Search by brand, model, or title..."
+                value="<%= selected.search %>"
+                class="w-full px-4 py-2 rounded bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                autocomplete="off"
+              />
+              <ul id="suggestions" class="absolute bg-white text-black rounded shadow mt-1 z-50 w-full hidden"></ul>
+            </div>
+
+            <!-- GROUP ALL FILTERS TOGETHER IN ONE BOX -->
+            <div class="flex flex-col gap-2 p-4 rounded-lg bg-white bg-opacity-90 mb-2">
+              <!-- Brand -->
+              <select name="brand" id="brand-select" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Brand</option>
+                <% filtersAvailable.brand.forEach(brand => { %>
+                  <option value="<%= brand %>" <%= selected.brand === brand ? 'selected' : '' %>><%= brand %></option>
+                <% }) %>
+              </select>
+
+              <!-- Model (always rendered, options depend on brand) -->
+              <select name="model" id="model-select" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Model</option>
+                <% filtersAvailable.model.forEach(model => { %>
+                  <option value="<%= model %>" <%= selected.model === model ? 'selected' : '' %>><%= model %></option>
+                <% }) %>
+              </select>
+
+              <!-- Movement -->
+              <select name="movement" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Movement</option>
+                <% filtersAvailable.movement.forEach(movement => { %>
+                  <option value="<%= movement %>" <%= selected.movement === movement ? 'selected' : '' %>><%= movement %></option>
+                <% }) %>
+              </select>
+
+              <!-- Complication Level -->
+              <select name="complicationlevel" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Complication Level</option>
+                <% filtersAvailable.complicationlevel.forEach(level => { %>
+                  <option value="<%= level %>" <%= selected.complicationlevel === level ? 'selected' : '' %>><%= level %></option>
+                <% }) %>
+              </select>
+
+              <!-- Complications -->
+              <select name="complications" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Complications</option>
+                <% filtersAvailable.complications.forEach(comp => { %>
+                  <option value="<%= comp %>" <%= selected.complications === comp ? 'selected' : '' %>><%= comp %></option>
+                <% }) %>
+              </select>
+
+              <!-- Purpose -->
+              <select name="purpose" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Purpose</option>
+                <% filtersAvailable.purpose.forEach(purpose => { %>
+                  <option value="<%= purpose %>" <%= selected.purpose === purpose ? 'selected' : '' %>><%= purpose %></option>
+                <% }) %>
+              </select>
+
+              <!-- Dial Style -->
+              <select name="dialStyle" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Dial Style</option>
+                <% filtersAvailable.dialStyle.forEach(style => { %>
+                  <option value="<%= style %>" <%= selected.dialStyle === style ? 'selected' : '' %>><%= style %></option>
+                <% }) %>
+              </select>
+
+              <!-- Strap -->
+              <select name="strap" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Strap Material</option>
+                <% filtersAvailable.strap.forEach(strap => { %>
+                  <option value="<%= strap %>" <%= selected.strap === strap ? 'selected' : '' %>><%= strap %></option>
+                <% }) %>
+              </select>
+
+              <!-- Material -->
+              <select name="material" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Material</option>
+                <% filtersAvailable.material.forEach(material => { %>
+                  <option value="<%= material %>" <%= selected.material === material ? 'selected' : '' %>><%= material %></option>
+                <% }) %>
+              </select>
+
+              <!-- Case Size -->
+              <select name="caseSize" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Case Size</option>
+                <% filtersAvailable.caseSize.forEach(size => { %>
+                  <option value="<%= size %>" <%= selected.caseSize === size ? 'selected' : '' %>><%= size %></option>
+                <% }) %>
+              </select>
+
+              <!-- Hands Style -->
+              <select name="hands" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Hands Style</option>
+                <% filtersAvailable.hands.forEach(hands => { %>
+                  <option value="<%= hands %>" <%= selected.hands === hands ? 'selected' : '' %>><%= hands %></option>
+                <% }) %>
+              </select>
+
+            <!-- Numerals -->
+              <select name="numerals" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Numerals</option>
+                <% filtersAvailable.numerals.forEach(numerals => { %>
+                  <option value="<%= numerals %>" <%= selected.numerals === numerals ? 'selected' : '' %>><%= numerals %></option>
+                <% }) %>
+              </select>
+              <select name="water" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Water Resistance</option>
+                <% filtersAvailable.water.forEach(water => { %>
+                  <option value="<%= water %>" <%= selected.water === water ? 'selected' : '' %>><%= water %></option>
+                <% }) %>
+              </select>
+              <select name="magnetic" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Magnetic Resistance</option>
+                <% filtersAvailable.magnetic.forEach(magnetic => { %>
+                  <option value="<%= magnetic %>" <%= selected.magnetic === magnetic ? 'selected' : '' %>><%= magnetic %></option>
+                <% }) %>
+              </select>
+              <select name="shock" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Shock Resistance</option>
+                <% filtersAvailable.shock.forEach(shock => { %>
+                  <option value="<%= shock %>" <%= selected.shock === shock ? 'selected' : '' %>><%= shock %></option>
+                <% }) %>
+              </select>
+              <select name="helium" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
+                <option value="">Helium Escape Valve</option>
+                <% filtersAvailable.helium.forEach(helium => { %>
+                  <option value="<%= helium %>" <%= selected.helium === helium ? 'selected' : '' %>><%= helium %></option>
+                <% }) %>
+              </select>
+            </div>
+
+            <button type="submit" class="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition">
+              Apply Filters
+            </button>
+          </form>
+        </aside>
+
+        <!-- Right: Watch Grid -->
+        <div class="md:w-3/4 w-full flex flex-col">
+          <!-- Heading and Zoom Controls in same line -->
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+            <h2
+              class="text-2xl sm:text-3xl font-bold font-cinzel text-center tracking-wide mb-2 sm:mb-0"
+              style="color: white !important;"
+            >
+              Discover Watches Tailored For You
+            </h2>
+          </div>
+          <% if (watches.length === 0) { %>
+            <div class="text-center text-xl text-gray-400 mt-12">No watches found. Try adjusting your filters.</div>
+          <% } else { %>
+          <!-- Watch Grid: 4 columns on xl, compact card and content -->
+          <div id="watch-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <% watches.forEach(watch => { %>
+              <div class="watch-card">
+  <div class="watch-img-container">
+    <a href="<%= watch.link %>">
+      <img src="<%= watch.image %>" alt="<%= watch.brand %> <%= watch.model %>">
+    </a>
+  </div>
+  <div class="watch-content">
+    <a href="<%= watch.link %>" style="text-decoration:none; color:inherit; display:block; width:100%">
+      <div class="font-bold text-base text-center mb-0.5 leading-tight"><%= watch.brand %> <%= watch.model %></div>
+      <div class="text-gray-500 text-xs mb-1 text-center"><%= watch.movement %></div>
+      <div class="text-lg font-semibold text-gray-800 mb-1 text-center">$<%= watch.price %></div>
+    </a>
+    <div class="flex gap-1 w-full justify-center mt-2 px-3 pb-3">
+      <button
+        class="px-2 py-1 border border-black rounded font-semibold text-xs wishlist-toggle-btn
+          <%= wishlistIds && wishlistIds.includes(String(watch.id)) ? 'bg-blue-600 text-white' : 'bg-white text-black hover:bg-black hover:text-white' %>"
+        data-watch-id="<%= watch.id %>"
+        data-in-wishlist="<%= wishlistIds && wishlistIds.includes(String(watch.id)) ? 'added' : 'wishlist' %>"
+      >
+        <%= wishlistIds && wishlistIds.includes(String(watch.id)) ? 'Added' : 'Add to Wishlist' %>
+      </button>
+      <button
+        class="px-2 py-1 border border-black rounded font-semibold text-xs compare-toggle-btn bg-white text-black hover:bg-black hover:text-white"
+        data-watch-id="<%= watch.id %>"
+        data-in-compare="compare"
+      >
+        Compare
+      </button>
+    </div>
+  </div>
+</div>
+            <% }) %>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+<!-- ...existing code... -->
+
+<footer class="w-full bg-black bg-opacity-50 backdrop-blur-sm text-white px-6 py-10 mt-12 text-sm">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 mb-6 text-center sm:text-left">
+    <!-- Left: Brand & Nav -->
+    <div>
+      <h2 class="text-xl font-semibold mb-2 font-cinzel">TimeTurner</h2>
+      <ul class="space-y-1">
+        <li><a href="/" class="hover:underline">Home</a></li>
+        <li><a href="/explore" class="hover:underline">Explore</a></li>
+        <li><a href="/customize" class="hover:underline">Customize</a></li>
+        <li><a href="/compare" class="hover:underline">Compare</a></li>
+        <li><a href="/wishlist" class="hover:underline">Wishlist</a></li>
+        <li><a href="/blog" class="hover:underline">Blog</a></li>
+      </ul>
+    </div>
+    <!-- Center: Newsletter -->
+    <div>
+      <h2 class="text-xl font-semibold mb-2 font-cinzel justify-center">Newsletter</h2>
+      <p class="text-gray-300 mb-3 justify-center">Stay Updated on New Arrivals and Watch Trends.</p>
+      <form class="flex flex-col sm:flex-row gap-2 justify-center">
+        <input type="email" placeholder="Your email" class="px-3 py-2 rounded text-black w-full sm:w-auto" />
+        <button type="submit" class="bg-white text-black font-semibold px-4 py-2 rounded hover:bg-gray-200">Subscribe</button>
+      </form>
+    </div>
+    <!-- Right: More -->
+    <div>
+      <h2 class="text-xl font-semibold mb-2 font-cinzel">More</h2>
+      <ul class="space-y-1">
+        <li><a href="/about" class="hover:underline">About</a></li>
+        <li><a href="/terms" class="hover:underline">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- Bottom Bar -->
+  <div class="border-t border-gray-500 pt-4 text-center text-xs text-gray-300">
+    © 2025 <span class="font-semibold font-cinzel">TimeTurner</span>. All rights reserved.
+  </div>
+</footer>
+  <style>
+  /* Remove fixed card sizes, let Tailwind handle responsiveness */
+  /* Card: row on all screens, image left, content right */
+.watch-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.07);
+  overflow: hidden;
+  margin-bottom: 1rem;
+  min-width: 0;
+  max-width: 100%;
+  height: 370px; /* or adjust as needed */
+}
+
+.watch-img-container {
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  height: 180px; /* adjust as needed */
+}
+
+.watch-img-container a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.watch-img-container img {
+  max-width: 100%;
+  max-height: 90%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.watch-content {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 1rem 1.25rem 1.25rem 1.25rem;
+  flex: 1 1 auto;
+  height: auto;
+}
+
+.watch-content > .flex {
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+/* MOBILE: image left, all content and buttons stacked vertically on right */
+@media (max-width: 639px) {
+  .watch-card {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    height: 170px !important;
+    min-height: 170px !important;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.08);
+    background: #fff;
+    padding: 0 !important;
+  }
+  .watch-img-container {
+    width: 38% !important;
+    min-width: 38% !important;
+    height: 100% !important;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .watch-img-container img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+  }
+  .watch-content {
+    width: 62% !important;
+    min-width: 62% !important;
+    height: 100%;
+    padding: 0.7rem 0.7rem 0.7rem 0.7rem !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .watch-content > div {
+    text-align: center !important;
+    margin-bottom: 0.18rem !important;
+    font-size: 1.05rem !important;
+    width: 100%;
+  }
+  /* Stack buttons vertically below content, centered */
+  .watch-card .flex {
+    flex-direction: column !important;
+    align-items: center !important;
+    margin-top: 0.4rem !important;
+    padding: 0 !important;
+    gap: 0.4rem !important;
+    width: 100%;
+  }
+  .wishlist-toggle-btn, .compare-toggle-btn {
+    width: 90% !important;
+    min-width: 0 !important;
+    font-size: 1rem !important;
+    padding: 0.38rem 0.7rem !important;
+    border-width: 1.2px !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Keep filter panel background and blur always consistent */
+  .custom-filter-bg {
+    background: rgba(255,255,255,0.18) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    transition: none !important;
+  }
+  #filter-panel label {
+    color: #fff !important;
+  }
+  @media (max-width: 767px) {
+    #filter-panel.custom-filter-bg {
+      background: rgba(255,255,255,0.95) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+    }
+  }
+  </style>
+
+  <script>
+    // Hamburger menu logic
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeBtn = document.getElementById('close-mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    });
+
+    closeBtn.addEventListener('click', closeMenu);
+
+    function closeMenu() {
+      mobileMenu.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    // Filter dropdown logic
+    const filterBtn = document.getElementById('toggle-filter');
+    const filterPanel = document.getElementById('filter-panel');
+    let filterOpen = false;
+
+    function showFilter() {
+      filterPanel.classList.remove('hidden');
+      filterPanel.classList.add('fixed', 'top-0', 'left-0', 'w-full', 'h-full', 'z-50', 'overflow-y-auto', 'max-h-screen', 'p-6', 'bg-white', 'bg-opacity-95');
+      filterOpen = true;
+    }
+
+    function hideFilter() {
+      filterPanel.classList.add('hidden');
+      filterPanel.classList.remove('fixed', 'top-0', 'left-0', 'w-full', 'h-full', 'z-50', 'overflow-y-auto', 'max-h-screen', 'p-6', 'bg-white', 'bg-opacity-95');
+      filterOpen = false;
+    }
+
+    if (filterBtn) {
+      filterBtn.addEventListener('click', () => {
+        if (!filterOpen) {
+          showFilter();
+          // Add close button
+          if (!document.getElementById('close-filter-panel')) {
+            const closeBtn = document.createElement('button');
+            closeBtn.id = 'close-filter-panel';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.className = 'absolute top-4 right-6 text-4xl text-black font-bold z-60';
+            closeBtn.onclick = hideFilter;
+            filterPanel.appendChild(closeBtn);
+          }
+        }
+      });
+    }
+    // Hide filter panel when resizing to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) {
+        filterPanel.classList.remove('hidden', 'fixed', 'top-0', 'left-0', 'w-full', 'h-full', 'z-50', 'overflow-y-auto', 'max-h-screen', 'p-6', 'bg-white', 'bg-opacity-95');
+        document.body.classList.remove('overflow-hidden');
+        filterOpen = false;
+        const closeBtn = document.getElementById('close-filter-panel');
+        if (closeBtn) closeBtn.remove();
+      } else {
+        // Only hide if not open
+        if (!filterOpen) {
+          filterPanel.classList.add('hidden');
+        }
+      }
+    });
+
+    // Show all watches if no filters are applied
+    document.getElementById('filter-form').addEventListener('submit', function(e) {
+      // If all filter fields are empty, reload page with no query params
+      const form = e.target;
+      const inputs = Array.from(form.elements).filter(el => el.tagName === 'SELECT' || el.tagName === 'INPUT');
+      const hasValue = inputs.some(el => el.value && el.value !== '');
+      if (!hasValue) {
+        e.preventDefault();
+        window.location = window.location.pathname;
+      }
+    });
+
+    
+
+    // Debugging: Log filters on submit
+    document.getElementById('filter-form').addEventListener('submit', function(e) {
+      const filters = {
+        search: this.search.value,
+        brand: this.brand.value,
+        model: this.model.value,
+        movement: this.movement.value,
+        complicationLevel: this.complicationLevel.value,
+        complications: this.complications.value,
+        purpose: this.purpose.value,
+        dialColor: this.dialColor.value,
+        dialStyle: this.dialStyle.value,
+        strapColor: this.strapColor.value,
+        strap: this.strap.value,
+        quickRelease: this.quickRelease.value,
+        caseMaterial: this.caseMaterial.value,
+        caseSize: this.caseSize.value,
+        hands: this.hands.value,
+        numerals: this.numerals.value,
+        waterResistance: this.waterResistance.value,
+        magneticResistance: this.magneticResistance.value,
+        shockResistance: this.shockResistance.value,
+        heliumEscapeValve: this.heliumEscapeValve.value
+      };
+      console.log('Filters:', filters);
+    });
+  </script>
+  <script>
+function attachWishlistListeners() {
+  document.querySelectorAll('.wishlist-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const watchId = this.getAttribute('data-watch-id');
+      const inWishlist = this.getAttribute('data-in-wishlist') === 'added';
+      fetch(`/wishlist/${inWishlist ? 'remove' : 'add'}/${watchId}`, {
+        method: 'POST',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      })
+      .then(res => {
+        if (res.ok) {
+          if (inWishlist) {
+            this.textContent = 'Add to Wishlist';
+            this.setAttribute('data-in-wishlist', 'wishlist');
+            this.classList.remove('bg-blue-600', 'text-white');
+            this.classList.add('bg-white', 'text-black', 'hover:bg-black', 'hover:text-white');
+          } else {
+            this.textContent = 'Added';
+            this.setAttribute('data-in-wishlist', 'added');
+            this.classList.remove('bg-white', 'text-black', 'hover:bg-black', 'hover:text-white');
+            this.classList.add('bg-blue-600', 'text-white');
+          }
+        } else if (res.status === 401) {
+          window.location = '/login';
+        }
+      });
+    });
+  });
+}
+document.addEventListener('DOMContentLoaded', attachWishlistListeners);
+  </script>
+  <script>
+document.querySelectorAll('.compare-toggle-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const watchId = this.getAttribute('data-watch-id');
+    const inCompare = this.getAttribute('data-in-compare') === 'true';
+    fetch(`/compare/${inCompare ? 'remove' : 'add'}/${watchId}`, {
+      method: 'POST',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(res => {
+      if (res.ok) {
+        this.textContent = inCompare ? 'Compare' : 'Added to Compare';
+        this.setAttribute('data-in-compare', inCompare ? 'false' : 'true');
+        this.classList.toggle('bg-blue-600', !inCompare);
+        this.classList.toggle('bg-white', inCompare);
+        this.classList.toggle('text-black', inCompare);
+        this.classList.toggle('text-white', !inCompare);
+        this.classList.toggle('hover:bg-black', inCompare);
+        this.classList.toggle('hover:text-white', inCompare);
+        this.classList.toggle('cursor-not-allowed', false);
+      } else if (res.status === 401) {
+        window.location = '/login';
+      }
+    });
+  });
+});
+  </script>
+  <script>
+document.querySelectorAll('#filter-form select').forEach(select => {
+  select.addEventListener('change', function() {
+    // Gather current filter values
+    const params = new URLSearchParams();
+    document.querySelectorAll('#filter-form select').forEach(sel => {
+      if (sel.value) params.append(sel.name, sel.value);
+    });
+
+    fetch('/api/filter-options?' + params.toString())
+      .then(res => res.json())
+      .then(filters => {
+        // For each filter dropdown, update its options
+        Object.keys(filters).forEach(field => {
+          const sel = document.querySelector(`#filter-form select[name="${field}"]`);
+          if (sel) {
+            const current = sel.value;
+            sel.innerHTML = `<option value="">${sel.options[0]?.text || 'Any'}</option>`;
+            filters[field].forEach(val => {
+              sel.innerHTML += `<option value="${val}"${val === current ? ' selected' : ''}>${val}</option>`;
+            });
+          }
+        });
+      });
+  });
+});
+</script>
+<script>
+const searchInput = document.querySelector('#filter-form input[name="search"]');
+const watchGrid = document.getElementById('watch-grid');
+
+if (searchInput && watchGrid) {
+  let searchTimeout;
+  searchInput.addEventListener('input', function() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      // Gather all filter values
+      const params = new URLSearchParams();
+      document.querySelectorAll('#filter-form select').forEach(sel => {
+        if (sel.value) params.append(sel.name, sel.value);
+      });
+      if (searchInput.value) params.append('search', searchInput.value);
+
+      fetch('/api/explore-search?' + params.toString())
+        .then(res => res.json())
+        .then(watches => {
+          // Render the watch grid
+          if (watches.length === 0) {
+            watchGrid.innerHTML = '<div class="text-center text-xl text-gray-400 mt-12">No watches found. Try adjusting your filters.</div>';
+            return;
+          }
+          watchGrid.innerHTML = watches.map(watch => `
+            <div class="watch-card">
+              <div class="watch-img-container">
+                <img src="${watch.image}" alt="${watch.brand} ${watch.model}">
+              </div>
+              <div class="watch-content">
+                <div class="font-bold text-base text-center mb-0.5 leading-tight">${watch.brand} ${watch.model}</div>
+                <div class="text-gray-500 text-xs mb-1 text-center">${watch.movement}</div>
+                <div class="text-lg font-semibold text-gray-800 mb-1 text-center">$${watch.price}</div>
+                <div class="flex gap-1 w-full justify-center mt-2 px-3 pb-3">
+                  <button
+                    class="px-2 py-1 border border-black rounded font-semibold text-xs wishlist-toggle-btn
+                      ${watch.isInWishlist ? 'bg-blue-600 text-white' : 'bg-white text-black hover:bg-black hover:text-white'}"
+                    data-watch-id="${watch.id}"
+                    data-in-wishlist="${watch.isInWishlist ? 'added' : 'wishlist'}"
+                  >
+                    ${watch.isInWishlist ? 'Added' : 'Add to Wishlist'}
+                  </button>
+                  <button
+                    class="px-2 py-1 border border-black rounded font-semibold text-xs compare-toggle-btn
+                      ${watch.isInCompare ? 'bg-blue-600 text-white' : 'bg-white text-black hover:bg-black hover:text-white'}"
+                  >
+                    ${watch.isInCompare ? 'Added to Compare' : 'Compare'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          `).join('');
+          attachWishlistListeners(); // <-- Add this line!
+        });
+    }, 300);
+  });
+}
+</script>
+<script>
+const searchBox = document.getElementById("search-box");
+const suggestions = document.getElementById("suggestions");
+let timeout;
+
+// Autocomplete suggestions
+searchBox.addEventListener("input", function () {
+  const query = this.value.trim();
+  clearTimeout(timeout);
+
+  if (!query) {
+    suggestions.classList.add("hidden");
+    return;
+  }
+
+  timeout = setTimeout(() => {
+    fetch(`/search/suggest?q=${encodeURIComponent(query)}`)
+      .then(res => res.json())
+      .then(data => {
+        suggestions.innerHTML = "";
+        if (data.length === 0) {
+          suggestions.classList.add("hidden");
+          return;
+        }
+        data.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          li.className = "px-4 py-2 hover:bg-blue-100 cursor-pointer";
+          li.onclick = () => {
+            searchBox.value = item;
+            suggestions.classList.add("hidden");
+            window.location.href = `/explore?search=${encodeURIComponent(item)}`;
+          };
+          suggestions.appendChild(li);
+        });
+        suggestions.classList.remove("hidden");
+      });
+  }, 250);
+});
+
+// Enter key triggers redirect
+searchBox.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    window.location.href = `/explore?search=${encodeURIComponent(searchBox.value)}`;
+  }
+});
+
+// Live filter update (inject filtered HTML)
+searchBox.addEventListener("input", function () {
+  const query = this.value.trim();
+  // Gather all filter values
+  const params = new URLSearchParams();
+  document.querySelectorAll('#filter-form select').forEach(sel => {
+    if (sel.value) params.append(sel.name, sel.value);
+  });
+  if (query) params.append('q', query);
+
+  fetch(`/search/live?${params.toString()}`)
+    .then(res => res.text())
+    .then(html => {
+      watchGrid.innerHTML = html;
+    });
+});
+
+// Hide suggestions on blur
+searchBox.addEventListener("blur", () => {
+  setTimeout(() => suggestions.classList.add("hidden"), 200);
+});
+</script>
+<% var wishlistIds = typeof wishlistIds !== 'undefined' ? wishlistIds : []; %>
+<% var compareIds = typeof compareIds !== 'undefined' ? compareIds : []; %>
+<script>
+let filter = {};
+</script>
+</body>
+</html>

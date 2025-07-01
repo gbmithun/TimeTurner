@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= watch.title %> - Timeturner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Cinzel', serif; }
+    .font-cinzel { font-family: 'Cinzel', serif; }
+  </style>
+</head>
+<body class="bg-black bg-opacity-80 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="w-full px-6 py-4 flex justify-between items-center bg-black bg-opacity-50 backdrop-blur-sm text-white fixed top-0 left-0 z-10">
+    <a href="/" class="text-3xl md:text-4xl font-extrabold tracking-wide font-cinzel text-white drop-shadow">
+      TimeTurner
+    </a>
+    <nav class="hidden md:flex gap-6 text-white">
+      <a href="/" class="hover:text-gray-200 transition text-white">Home</a>
+      <a href="/explore" class="hover:text-gray-200 transition text-white">Explore</a>
+      <a href="/customize" class="hover:text-gray-200 transition text-white">Customize</a>
+      <a href="/blog" class="hover:text-gray-200 transition text-white">Blog</a>
+      <a href="/wishlist" class="hover:text-gray-200 transition text-white">Wishlist</a>
+    </nav>
+  </header>
+
+  <main class="flex-1 flex items-center justify-center pt-32 pb-16 px-4">
+    <div class="max-w-4xl w-full bg-white bg-opacity-90 rounded-xl shadow-lg p-8 flex flex-col md:flex-row gap-8 items-center">
+      <!-- Watch Image -->
+      <div class="flex-shrink-0 w-full md:w-1/2 flex justify-center items-center">
+        <img src="<%= watch.image %>" alt="<%= watch.title %>" class="w-72 h-72 object-contain rounded-lg shadow" />
+      </div>
+      <!-- Watch Details -->
+      <div class="flex-1 flex flex-col items-start">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2 font-cinzel"><%= watch.title %></h1>
+        <div class="text-xl font-semibold text-gray-800 mb-4">$<%= watch.price %></div>
+        <div class="mb-2 text-gray-700"><span class="font-semibold">Brand:</span> <%= watch.brand %></div>
+        <div class="mb-2 text-gray-700"><span class="font-semibold">Movement:</span> <%= watch.movement %></div>
+        <% if (watch.description) { %>
+          <div class="mb-4 text-gray-600"><%= watch.description %></div>
+        <% } %>
+        <div class="flex gap-3 mt-4">
+          <button class="px-5 py-2 bg-black text-white rounded hover:bg-gray-800 transition text-sm font-semibold">Add to Wishlist</button>
+          <button class="px-5 py-2 border border-black text-black rounded hover:bg-black hover:text-white transition text-sm font-semibold">Compare</button>
+        </div>
+        <% if (user) { %>
+          <form method="POST" action="/wishlist/add/<%= watch.id %>">
+            <button type="submit" class="text-pink-500 hover:underline text-sm flex items-center gap-1">
+              ❤️ Add to Wishlist
+            </button>
+          </form>
+        <% } else { %>
+          <a href="/login" class="text-pink-500 hover:underline text-sm flex items-center gap-1">
+            ❤️ Add to Wishlist
+          </a>
+        <% } %>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full text-center py-4 text-white bg-black bg-opacity-50 backdrop-blur-sm z-20 fixed bottom-0 left-0">
+    © 2025 <span class="font-semibold font-cinzel">Timeturner</span>. All rights reserved.
+  </footer>
+</body>
+</html>

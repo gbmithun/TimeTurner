@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login | TimeTurner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Cinzel', serif; }
+    .font-cinzel { font-family: 'Cinzel', serif; }
+  </style>
+</head>
+<body class="bg-black bg-opacity-80 min-h-screen flex flex-col text-white relative">
+
+  <!-- Background Video -->
+  <video class="fixed top-0 left-0 w-full h-full object-cover -z-10" autoplay muted loop playsinline id="bg-video">
+    <source src="/videos/hero-bg.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <!-- Dim overlay for clarity -->
+  <div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 pointer-events-none -z-10"></div>
+
+  <!-- Header -->
+  <header class="w-full px-6 py-4 flex justify-between items-center bg-black bg-opacity-50 backdrop-blur-sm text-white fixed top-0 left-0 z-20">
+    <a href="/" class="text-3xl md:text-4xl font-extrabold tracking-wide font-cinzel text-white drop-shadow">
+      TimeTurner
+    </a>
+    <div class="hidden md:flex items-center gap-4">
+      <nav class="hidden md:flex gap-6 text-white">
+        <a href="/" class="hover:text-gray-200 transition text-white">Home</a>
+        <a href="/explore" class="hover:text-gray-200 transition text-white">Explore</a>
+        <a href="/customize" class="hover:text-gray-200 transition text-white">Customize</a>
+        <a href="/blog" class="hover:text-gray-200 transition text-white">Blog</a>
+        <a href="/compare" class="hover:text-gray-200 transition">Compare</a>
+        <a href="/wishlist" class="hover:text-gray-200 transition text-white">Wishlist</a>
+      </nav>
+      <% if (user) { %>
+        <span class="md:inline">Welcome, <%= user.username %></span>
+        <a href="/logout" class="hover:text-gray-200 transition text-white">Logout</a>
+      <% } else { %>
+        <a href="/login" class="hover:text-gray-200 transition text-white">Login/Signup</a>
+      <% } %>
+    </div>
+    <!-- Hamburger Button (Mobile) -->
+    <button id="menu-btn" class="md:hidden flex flex-col justify-center items-center w-10 h-10 focus:outline-none" aria-label="Open Menu">
+      <span class="block w-6 h-0.5 bg-white mb-1"></span>
+      <span class="block w-6 h-0.5 bg-white mb-1"></span>
+      <span class="block w-6 h-0.5 bg-white"></span>
+    </button>
+  </header>
+  <!-- Mobile Dropdown Nav -->
+  <div id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-40 flex-col items-center justify-center hidden">
+    <button id="close-mobile-menu" class="absolute top-6 right-6 text-white text-3xl font-bold">&times;</button>
+    <nav class="flex flex-col gap-8 items-center justify-center h-full text-2xl font-semibold text-white">
+      <a href="/" class="hover:text-gray-300 transition" onclick="closeMenu()">Home</a>
+      <a href="/explore" class="hover:text-gray-300 transition" onclick="closeMenu()">Explore</a>
+      <a href="/customize" class="hover:text-gray-300 transition" onclick="closeMenu()">Customize</a>
+      <a href="/blog" class="hover:text-gray-300 transition" onclick="closeMenu()">Blog</a>
+      <a href="/compare" class="hover:text-gray-300 transition" onclick="closeMenu()">Compare</a>
+      <a href="/wishlist" class="hover:text-gray-300 transition" onclick="closeMenu()">Wishlist</a>
+      <!-- Auth/User Block for mobile -->
+      <div class="flex flex-col items-center gap-2 mt-8">
+        <% if (user) { %>
+          <span class="text-base">Welcome, <%= user.username %></span>
+          <a href="/logout" class="text-white hover:text-gray-300 transition">Logout</a>
+        <% } else { %>
+          <a href="/login" class="text-white hover:text-gray-300 transition">Login/Signup</a>
+        <% } %>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Login Form Centered -->
+  <main class="min-h-[100vh] flex-1 flex items-center justify-center pt-32 pb-16">
+    <div class="w-full max-w-md mx-auto bg-white bg-opacity-10 rounded-xl shadow-lg p-8 flex flex-col gap-6 border border-gray-700">
+      <h2 class="text-2xl font-bold font-cinzel text-center mb-2">Login</h2>
+      <% if (error) { %>
+        <div class="text-red-400 text-center mb-2"><%= error %></div>
+      <% } %>
+      <form method="POST" action="/login">
+        <label for="identifier" class="block mb-1 font-semibold">Username or Email</label>
+        <input type="text" id="identifier" name="identifier" placeholder="Email or Username" required
+          class="w-full px-4 py-2 rounded bg-black bg-opacity-60 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-gray-400 transition" />
+
+        <label for="password" class="block mb-1 font-semibold mt-4">Password</label>
+        <input type="password" id="password" name="password" placeholder="Password" required
+          class="w-full px-4 py-2 rounded bg-black bg-opacity-60 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-gray-400 transition pr-10" />
+
+        <button type="submit"
+          class="w-full py-2 mt-2 rounded bg-black bg-opacity-80 border border-gray-700 text-white font-semibold hover:bg-gray-900 hover:border-gray-500 transition">
+          Login
+        </button>
+      </form>
+      <p class="text-center text-sm mt-2">
+        Don’t have an account?
+        <a href="/signup" class="text-blue-300 hover:underline">Sign up</a>
+      </p>
+      <!-- Add below the Login button and Sign up link -->
+      <p class="text-center text-sm mt-2">
+        <a href="/forgot-password" class="text-blue-300 hover:underline">Forgot password?</a>
+      </p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+<!-- ...existing code... -->
+
+<footer class="w-full bg-black bg-opacity-50 backdrop-blur-sm text-white px-6 py-10 mt-12 text-sm">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 mb-6 text-center sm:text-left">
+    <!-- Left: Brand & Nav -->
+    <div>
+      <h2 class="text-xl font-semibold mb-2 font-cinzel">TimeTurner</h2>
+      <ul class="space-y-1">
+        <li><a href="/" class="hover:underline">Home</a></li>
+        <li><a href="/explore" class="hover:underline">Explore</a></li>
+        <li><a href="/customize" class="hover:underline">Customize</a></li>
+        <li><a href="/compare" class="hover:underline">Compare</a></li>
+        <li><a href="/wishlist" class="hover:underline">Wishlist</a></li>
+        <li><a href="/blog" class="hover:underline">Blog</a></li>
+      </ul>
+    </div>
+    <!-- Center: Newsletter -->
+    <div>
+      <h2 class="text-xl font-semibold mb-2 font-cinzel justify-center">Newsletter</h2>
+      <p class="text-gray-300 mb-3 justify-center">Stay Updated on New Arrivals and Watch Trends.</p>
+      <form class="flex flex-col sm:flex-row gap-2 justify-center">
+        <input type="email" placeholder="Your email" class="px-3 py-2 rounded text-black w-full sm:w-auto" />
+        <button type="submit" class="bg-white text-black font-semibold px-4 py-2 rounded hover:bg-gray-200">Subscribe</button>
+      </form>
+    </div>
+    <!-- Right: More -->
+    <div>
+      <h2 class="text-xl font-semibold mb-2 font-cinzel">More</h2>
+      <ul class="space-y-1">
+        <li><a href="/about" class="hover:underline">About</a></li>
+        <li><a href="/terms" class="hover:underline">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- Bottom Bar -->
+  <div class="border-t border-gray-500 pt-4 text-center text-xs text-gray-300">
+    © 2025 <span class="font-semibold font-cinzel">TimeTurner</span>. All rights reserved.
+  </div>
+</footer>
+  <script>
+    // Simple mobile menu toggle
+    document.getElementById('menu-btn').onclick = function() {
+      var menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    };
+    document.getElementById('close-mobile-menu').onclick = function() {
+      var menu = document.getElementById('mobile-menu');
+      menu.classList.add('hidden');
+    };
+    // Password show/hide toggle
+    const passwordInput = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
+    const eyeIcon = document.getElementById('eyeIcon');
+    let passwordVisible = false;
+    togglePassword.addEventListener('click', function () {
+      passwordVisible = !passwordVisible;
+      passwordInput.type = passwordVisible ? 'text' : 'password';
+      eyeIcon.setAttribute('stroke', passwordVisible ? '#60a5fa' : 'currentColor');
+    });
+  </script>
+</body>
+</html>
