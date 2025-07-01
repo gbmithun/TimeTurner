@@ -13,15 +13,15 @@
 </head>
 <body class="bg-black bg-opacity-80 min-h-screen flex flex-col text-white relative overflow-x-hidden">
 
-  <!-- Background Video -->
+  
   <video class="fixed top-0 left-0 w-full h-full object-cover -z-10" autoplay muted loop playsinline id="bg-video">
     <source src="/videos/hero-bg.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
-  <!-- Dim overlay for clarity -->
+  
   <div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 pointer-events-none -z-10"></div>
 
-  <!-- Header -->
+  
   <header class="w-full px-6 py-4 flex justify-between items-center bg-black bg-opacity-50 backdrop-blur-sm text-white fixed top-0 left-0 z-20">
     <a href="/" class="text-3xl md:text-4xl font-extrabold tracking-wide font-cinzel text-white drop-shadow">
       TimeTurner
@@ -60,7 +60,7 @@
         <a href="/login" class="hover:text-gray-200 transition text-white">Login/Signup</a>
       <% } %>
     </nav>
-    <!-- Hamburger Button (Mobile) -->
+    
     <button id="menu-btn" class="md:hidden flex flex-col justify-center items-center w-10 h-10 focus:outline-none" aria-label="Open Menu">
       <span class="block w-6 h-0.5 bg-white mb-1"></span>
       <span class="block w-6 h-0.5 bg-white mb-1"></span>
@@ -68,7 +68,7 @@
     </button>
   </header>
 
-  <!-- Mobile Dropdown Menu -->
+  
   <div id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-40 flex-col items-center justify-center hidden">
     <button id="close-mobile-menu" class="absolute top-6 right-6 text-white text-3xl font-bold">&times;</button>
     <nav class="flex flex-col gap-8 items-center justify-center h-full text-2xl font-semibold text-white">
@@ -94,12 +94,12 @@
     </nav>
   </div>
 
-  <!-- Main Content -->
+  
   <main class="min-h-[100vh] flex-1 pt-32 pb-16 px-2">
     <div class="max-w-6xl mx-auto">
       <h1 class="text-4xl md:text-5xl font-bold mb-10 text-center font-cinzel">Our Watch Blog</h1>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Blog Card 1 -->
+        
         <a href="https://www.timeandwatches.com/2025/06/armin-strom-gravity-equal-force.html">
         <div class="bg-white bg-opacity-90 rounded-xl shadow-lg flex flex-col overflow-hidden">
           <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgKsak8lBLc3uSml0X7mKZG-AxQbwwCSn_ebXT_3HGUB2iBEgvGh2TPSrjbWeNYPClG5JrDw7pFBgYHgU2DT-3NoVhEA54QT1t_FFXlekrb9bnHeIFJBttK7XSrCITMygKKiClF3N88k65M-O7b93r9UtX3f0_ChTFIBtD0SqJqfOJYF7dAMQOuesDQtik/s512-rw/Armin%20Strom%20Gravity%20Equal%20Force%20US%20Blue_001.webp" alt="History of Dive Watches" class="w-full h-48 object-cover"/>
@@ -110,7 +110,7 @@
           </div>
         </div>
         </a>
-        <!-- Blog Card 2 -->
+        
         <a href="https://dubailuxurywatch.com/blogs/news/the-most-expensive-watch-ever-sold-what-makes-the-patek-philippe-grandmaster-chime-ref-6300a-so-special?srsltid=AfmBOorm9oJDCk0mIBMwiKgSJfiegbeljUKxprG5aI9-GgVCBkPzELlm">
         <div class="bg-white bg-opacity-90 rounded-xl shadow-lg flex flex-col overflow-hidden">
           <img src="https://images.barrons.com/im-125869?width=700&size=1.3305613305613306&pixel_ratio=1.5" alt="Mechanical vs Quartz" class="w-full h-48 object-cover"/>
@@ -121,7 +121,7 @@
           </div>
         </div>
         </a>
-        <!-- Blog Card 3 -->
+        
         <a href="https://www.timeandwatches.com/2025/06/in-pictures-richard-mille-rm-30-01.html">
         <div class="bg-white bg-opacity-90 rounded-xl shadow-lg flex flex-col overflow-hidden">
           <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiW9zvClUKs4RKTZkpEcRR0wL0b9P5Ctpa62rRyOTZd6LTE82d_11i9Tk0cCh2zCHbOqqqlPvU9tOcO-Baxyz8xRbk87h_Sk6oGbI3lnVY0Ed5UFYXJ_ClhHFrEdoXICmI7M1qG5Zb5MDmf0vCOjC_LG5ktf4lOtlqan8AobNoO4ffHg82zgVJ9WL7yj-8/s700/Richard%20Mille%20RM%2030-01%20Automatic_001.jpg" alt="Iconic Watch Designs" class="w-full h-48 object-cover"/>
@@ -132,7 +132,7 @@
           </div>
         </div>
         </a>
-        <!-- Dynamic Blog Cards -->
+        
         <% if (blogs && blogs.length > 0) { %>
           <% blogs.forEach(blog => { %>
             <a href="<%= blog.href %>">
@@ -153,7 +153,7 @@
 
 <footer class="w-full bg-black bg-opacity-50 backdrop-blur-sm text-white px-6 py-10 mt-12 text-sm">
   <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 mb-6 text-center sm:text-left">
-    <!-- Left: Brand & Nav -->
+    
     <div>
       <h2 class="text-xl font-semibold mb-2 font-cinzel">TimeTurner</h2>
       <ul class="space-y-1">
@@ -165,7 +165,7 @@
         <li><a href="/blog" class="hover:underline">Blog</a></li>
       </ul>
     </div>
-    <!-- Center: Newsletter -->
+    
     <div>
       <h2 class="text-xl font-semibold mb-2 font-cinzel justify-center">Newsletter</h2>
       <p class="text-gray-300 mb-3 justify-center">Stay Updated on New Arrivals and Watch Trends.</p>
@@ -174,7 +174,7 @@
         <button type="submit" class="bg-white text-black font-semibold px-4 py-2 rounded hover:bg-gray-200">Subscribe</button>
       </form>
     </div>
-    <!-- Right: More -->
+    
     <div>
       <h2 class="text-xl font-semibold mb-2 font-cinzel">More</h2>
       <ul class="space-y-1">
@@ -183,13 +183,13 @@
       </ul>
     </div>
   </div>
-  <!-- Bottom Bar -->
+  
   <div class="border-t border-gray-500 pt-4 text-center text-xs text-gray-300">
     © 2025 <span class="font-semibold font-cinzel">TimeTurner</span>. All rights reserved.
   </div>
 </footer>
   <script>
-    // Hamburger menu logic
+    
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const closeMenuBtn = document.getElementById('close-mobile-menu');
@@ -199,7 +199,7 @@
     if(closeMenuBtn && mobileMenu) {
       closeMenuBtn.onclick = () => mobileMenu.classList.add('hidden');
     }
-    // Optional: close menu on nav link click (for SPA feel)
+    
     function closeMenu() {
       mobileMenu.classList.add('hidden');
     }

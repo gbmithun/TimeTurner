@@ -7,7 +7,7 @@ router.get('/explore', async (req, res) => {
     wishlistIds = (user.wishlist || []).map(String);
     compareIds = (user.compare || []).map(String);
   }
-  const allWatches = await getAllWatches(); // however you get watches
+  const allWatches = await getAllWatches();
   res.render('explore', {
     watches: allWatches,
     user,

@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Timeturner</title>
 
-  <!-- Google Fonts -->
+  
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS -->
+  
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -16,17 +16,17 @@
       font-family: 'Cinzel', serif;
     }
 
-    /* 🔒 Force header text white everywhere */
+    
     header, header * {
       color: #ffffff !important;
     }
 
-    /* Add this to fix dropdown text color */
+    
     #profile-dropdown, #profile-dropdown * {
       color: #222 !important;
     }
 
-    /* Ensure profile icon initial is black */
+    
     #profile-btn {
       color: #111 !important;
     }
@@ -35,19 +35,19 @@
 
 <body class="relative">
 
-  <!-- 🎥 Background Video -->
+  
   <video class="fixed top-0 left-0 w-full h-full object-cover -z-10" autoplay muted loop playsinline>
     <source src="/videos/hero-bg.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 
-  <!-- ⛓️ Header -->
+  
   <header class="w-full px-6 py-4 flex justify-between items-center bg-black bg-opacity-50 backdrop-blur-sm z-20 fixed top-0 left-0">
     <a href="/" class="text-3xl md:text-4xl font-extrabold tracking-wide font-[Cinzel] text-white drop-shadow">
       TimeTurner
     </a>
 
-    <!-- Hamburger for mobile -->
+    
     <button id="mobile-menu-btn" class="md:hidden flex flex-col justify-center items-center w-10 h-10 focus:outline-none" aria-label="Open menu">
       <span class="block w-7 h-1 bg-white mb-1 rounded"></span>
       <span class="block w-7 h-1 bg-white mb-1 rounded"></span>
@@ -93,7 +93,7 @@
     </div>
   </header>
 
-  <!-- Mobile Dropdown Menu -->
+  
   <div id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-40 flex-col items-center justify-center hidden">
     <button id="close-mobile-menu" class="absolute top-6 right-6 text-white text-3xl font-bold">&times;</button>
     <nav class="flex flex-col gap-8 items-center justify-center h-full text-2xl font-semibold text-white">
@@ -103,7 +103,7 @@
       <a href="/blog" class="hover:text-gray-300 transition" onclick="closeMenu()">Blog</a>
       <a href="/compare" class="hover:text-gray-300 transition" onclick="closeMenu()">Compare</a>
       <a href="/wishlist" class="hover:text-gray-300 transition" onclick="closeMenu()">Wishlist</a>
-      <!-- Auth/User Block for mobile -->
+      
       <div class="flex flex-col items-center gap-2 mt-8">
         <% if (user) { %>
           <div class="flex flex-col items-center gap-1">
@@ -120,7 +120,7 @@
     </nav>
   </div>
 
-  <!-- 🦸 Hero Section -->
+ 
   <section class="min-h-[100vh] flex flex-col items-center justify-center text-center text-white px-4">
     <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">
       Discover Your Perfect Watch
@@ -156,11 +156,11 @@
       document.body.classList.remove('overflow-hidden');
     }
   </script>
-  <!-- ...existing code... -->
+  
 
 <footer class="w-full bg-black bg-opacity-50 backdrop-blur-sm text-white px-6 py-10 mt-12 text-sm">
   <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 mb-6 text-center sm:text-left">
-    <!-- Left: Brand & Nav -->
+    
     <div>
       <h2 class="text-xl font-semibold mb-2 font-cinzel">TimeTurner</h2>
       <ul class="space-y-1">
@@ -172,7 +172,7 @@
         <li><a href="/blog" class="hover:underline">Blog</a></li>
       </ul>
     </div>
-    <!-- Center: Newsletter -->
+    
     <div>
       <h2 class="text-xl font-semibold mb-2 font-cinzel justify-center">Newsletter</h2>
       <p class="text-gray-300 mb-3 justify-center">Stay Updated on New Arrivals and Watch Trends.</p>
@@ -181,7 +181,7 @@
         <button type="submit" class="bg-white text-black font-semibold px-4 py-2 rounded hover:bg-gray-200">Subscribe</button>
       </form>
     </div>
-    <!-- Right: More -->
+    
     <div>
       <h2 class="text-xl font-semibold mb-2 font-cinzel">More</h2>
       <ul class="space-y-1">
@@ -190,7 +190,7 @@
       </ul>
     </div>
   </div>
-  <!-- Bottom Bar -->
+  
   <div class="border-t border-gray-500 pt-4 text-center text-xs text-gray-300">
     © 2025 <span class="font-semibold font-cinzel">TimeTurner</span>. All rights reserved.
   </div>

@@ -1,7 +1,7 @@
-const sendMail = require('./mailer'); // Adjust path if needed
+const sendMail = require('./mailer'); 
 
 sendMail(
-  "noreply.timeturner@gmail.com", // Replace with your email to test
+  "noreply.timeturner@gmail.com", 
   "Test Subject",
   "<p>This is a test email from TimeTurner!</p>"
 ).then(info => {

@@ -3,11 +3,11 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const router = express.Router();
-const sendMail = require('../mailer'); // Adjust path as needed
+const sendMail = require('../mailer');
 const User = require('../models/User');
 const Watch = require('../models/Watch');
 
-// Setup nodemailer transporter (Brevo example)
+
 const transporter = nodemailer.createTransport({
   host: 'smtp-relay.sendinblue.com',
   port: 587,
@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Signup
+
 router.get('/signup', (req, res) => {
   res.render('signup', { error: null });
 });
@@ -48,7 +48,7 @@ router.post('/signup', async (req, res) => {
   res.redirect('/login');
 });
 
-// Login
+
 router.get('/login', (req, res) => {
   res.render('login', { error: null });
 });
@@ -67,16 +67,16 @@ router.post('/login', async (req, res) => {
   if (!isMatch) {
     return res.render('login', { error: 'Invalid credentials' });
   }
-  // THIS IS THE CRUCIAL PART
+  
   req.session.user = {
     email: user.email,
     username: user.username,
-    isAdmin: user.isAdmin // <-- DO NOT MISS THIS LINE
+    isAdmin: user.isAdmin
   };
   res.redirect('/');
 });
 
-// Wishlist (protected)
+
 router.get('/wishlist', async (req, res) => {
   if (!req.session.user) return res.redirect('/login');
   const user = await User.findOne({ email: req.session.user.email });
@@ -90,7 +90,7 @@ router.get('/wishlist', async (req, res) => {
   });
 });
 
-// Add to wishlist
+
 router.post('/wishlist/add/:id', async (req, res) => {
   if (!req.session.user) {
     if (req.xhr) return res.status(401).send('Login required');
@@ -106,7 +106,7 @@ router.post('/wishlist/add/:id', async (req, res) => {
   res.redirect('/explore');
 });
 
-// Remove from wishlist
+
 router.post('/wishlist/remove/:id', async (req, res) => {
   if (!req.session.user) return res.redirect('/login');
   const watchId = Number(req.params.id);
@@ -119,17 +119,17 @@ router.post('/wishlist/remove/:id', async (req, res) => {
   res.redirect('/wishlist');
 });
 
-// Logout
+
 router.get('/logout', (req, res) => {
   req.session.destroy(() => res.redirect('/'));
 });
 
-// Show forgot-password page
+
 router.get('/forgot-password', (req, res) => {
   res.render('forgot-password', { message: null, error: null, showOtp: false, email: null });
 });
 
-// Handle forgot-password form
+
 router.post('/forgot-password', async (req, res) => {
   const email = (req.body.email || '').trim().toLowerCase();
   const user = await User.findOne({ email });
@@ -143,13 +143,13 @@ router.post('/forgot-password', async (req, res) => {
     });
   }
 
-  // Generate OTP and expiry
+  
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   const expiry = Date.now() + 15 * 60 * 1000;
 
   user.resetOTP = otp;
   user.resetOTPExpiry = expiry;
-  await user.save(); // <-- THIS IS CRUCIAL
+  await user.save(); 
 
   try {
     await sendMail(
@@ -165,7 +165,7 @@ router.post('/forgot-password', async (req, res) => {
   }
 });
 
-// Verify OTP and show reset-password link
+
 router.post('/verify-otp', async (req, res) => {
   const email = (req.body.email || '').trim().toLowerCase();
   const otp = (req.body.otp || '').trim();
@@ -174,7 +174,7 @@ router.post('/verify-otp', async (req, res) => {
   const submittedOtp = String(otp);
   const storedOtp = String(user?.resetOTP || '').trim();
 
-  // Debug log
+  
   console.log('Submitted:', submittedOtp, 'Stored:', storedOtp, 'Expiry:', user?.resetOTPExpiry, 'Now:', Date.now());
 
   if (!user || submittedOtp !== storedOtp || Date.now() > user.resetOTPExpiry) {
@@ -186,7 +186,7 @@ router.post('/verify-otp', async (req, res) => {
     });
   }
 
-  // OTP is valid, clear it and allow password reset
+  
   user.resetOTP = null;
   user.resetOTPExpiry = null;
   await user.save();
@@ -195,13 +195,13 @@ router.post('/verify-otp', async (req, res) => {
   res.redirect('/reset-password');
 });
 
-// Show reset-password form (session-based)
+
 router.get('/reset-password', (req, res) => {
   if (!req.session.resetEmail) return res.redirect('/forgot-password');
   res.render('reset-password', { error: null, message: null });
 });
 
-// Handle reset-password submission (session-based)
+
 router.post('/reset-password', async (req, res) => {
   if (!req.session.resetEmail) return res.redirect('/forgot-password');
   const { password } = req.body;

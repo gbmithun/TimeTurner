@@ -1,15 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 
-// Path to watches.json
+
 const watchesPath = path.join(__dirname, 'watches.json');
 
-// Mock function to generate random hex color
+
 function randomHexColor() {
   return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
 }
 
-// Mock data for demonstration
+
 const mockWatches = [
   {
     id: 1,
@@ -78,4 +78,3 @@ const mockWatches = [
   }
 ];
 
-// Optionally, you could "fetch" or generate more

@@ -4,8 +4,8 @@ const userSchema = new mongoose.Schema({
   username: String,
   email: { type: String, unique: true },
   password: String,
-  wishlist: [Number], // array of watch IDs
-  isAdmin: { type: Boolean, default: false }, // <-- ADD THIS LINE
+  wishlist: [Number],
+  isAdmin: { type: Boolean, default: false },
   resetOTP: { type: String },
   resetOTPExpiry: { type: Number }
 });

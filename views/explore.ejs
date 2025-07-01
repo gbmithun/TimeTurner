@@ -13,20 +13,20 @@
 </head>
 <body class="relative bg-black bg-opacity-80 min-h-screen overflow-x-hidden">
 
-  <!-- Background Video (dimmer overlay) -->
+  
   <video class="fixed top-0 left-0 w-full h-full object-cover -z-10" autoplay muted loop playsinline id="bg-video">
     <source src="/videos/hero-bg.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
   <div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 pointer-events-none -z-10"></div>
 
-  <!-- Header -->
+  
   <header class="fixed top-0 left-0 w-full z-10 px-6 py-4 flex justify-between items-center bg-black bg-opacity-50 backdrop-blur-sm text-white">
     <h1 class="text-3xl md:text-4xl font-extrabold tracking-wide drop-shadow font-cinzel text-white">
       TimeTurner
     </h1>
 
-    <!-- Hamburger for mobile -->
+    
     <button id="mobile-menu-btn" class="md:hidden flex flex-col justify-center items-center w-10 h-10 focus:outline-none" aria-label="Open menu">
       <span class="block w-7 h-1 bg-white mb-1 rounded"></span>
       <span class="block w-7 h-1 bg-white mb-1 rounded"></span>
@@ -54,7 +54,7 @@
           </div>
         </div>
         <script>
-          // Show/hide dropdown on click
+          
           document.addEventListener('DOMContentLoaded', function() {
             const btn = document.getElementById('profile-btn');
             const dropdown = document.getElementById('profile-dropdown');
@@ -73,7 +73,7 @@
     </div>
   </header>
 
-  <!-- Mobile Dropdown Menu -->
+  
   <div id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-40 flex-col items-center justify-center hidden">
     <button id="close-mobile-menu" class="absolute top-6 right-6 text-white text-3xl font-bold">&times;</button>
     <nav class="flex flex-col gap-8 items-center justify-center h-full text-2xl font-semibold text-white">
@@ -83,7 +83,7 @@
       <a href="/blog" class="hover:text-gray-300 transition" onclick="closeMenu()">Blog</a>
       <a href="/compare" class="hover:text-gray-300 transition" onclick="closeMenu()">Compare</a>
       <a href="/wishlist" class="hover:text-gray-300 transition" onclick="closeMenu()">Wishlist</a>
-      <!-- Auth/User Block for mobile -->
+      
       <div class="flex flex-col items-center gap-2 mt-8">
         <% if (user) { %>
           <span class="text-base">Welcome, <%= user.username %></span>
@@ -97,7 +97,7 @@
 
   <div class="pt-28 pb-16 px-2">
     <div class="max-w-[95vw] mx-auto flex flex-col gap-4">
-      <!-- Filter Dropdown for Mobile/Tablet -->
+      
       <div class="md:hidden flex justify-end mb-4">
         <button id="toggle-filter" class="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition font-semibold flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -107,7 +107,7 @@
         </button>
       </div>
       <div class="flex flex-col md:flex-row gap-4">
-        <!-- Filter Panel -->
+        
         <aside id="filter-panel" class="w-full md:w-1/4 flex flex-col rounded-xl shadow p-6 mb-6 md:mb-0 min-h-[28rem] transition-all duration-300 md:block hidden custom-filter-bg relative">
           <h2 class="text-2xl font-bold mb-4 font-cinzel text-black md:text-white">Filter Watches</h2>
           <form method="GET" class="flex flex-col gap-4" id="filter-form">
@@ -124,9 +124,9 @@
               <ul id="suggestions" class="absolute bg-white text-black rounded shadow mt-1 z-50 w-full hidden"></ul>
             </div>
 
-            <!-- GROUP ALL FILTERS TOGETHER IN ONE BOX -->
+            
             <div class="flex flex-col gap-2 p-4 rounded-lg bg-white bg-opacity-90 mb-2">
-              <!-- Brand -->
+             
               <select name="brand" id="brand-select" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
                 <option value="">Brand</option>
                 <% filtersAvailable.brand.forEach(brand => { %>
@@ -134,7 +134,7 @@
                 <% }) %>
               </select>
 
-              <!-- Model (always rendered, options depend on brand) -->
+              
               <select name="model" id="model-select" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
                 <option value="">Model</option>
                 <% filtersAvailable.model.forEach(model => { %>
@@ -142,7 +142,7 @@
                 <% }) %>
               </select>
 
-              <!-- Movement -->
+              
               <select name="movement" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
                 <option value="">Movement</option>
                 <% filtersAvailable.movement.forEach(movement => { %>
@@ -150,7 +150,7 @@
                 <% }) %>
               </select>
 
-              <!-- Complication Level -->
+              
               <select name="complicationlevel" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
                 <option value="">Complication Level</option>
                 <% filtersAvailable.complicationlevel.forEach(level => { %>
@@ -158,7 +158,7 @@
                 <% }) %>
               </select>
 
-              <!-- Complications -->
+              
               <select name="complications" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
                 <option value="">Complications</option>
                 <% filtersAvailable.complications.forEach(comp => { %>
@@ -166,7 +166,7 @@
                 <% }) %>
               </select>
 
-              <!-- Purpose -->
+              
               <select name="purpose" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
                 <option value="">Purpose</option>
                 <% filtersAvailable.purpose.forEach(purpose => { %>
@@ -174,7 +174,7 @@
                 <% }) %>
               </select>
 
-              <!-- Dial Style -->
+              
               <select name="dialStyle" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
                 <option value="">Dial Style</option>
                 <% filtersAvailable.dialStyle.forEach(style => { %>
@@ -182,7 +182,7 @@
                 <% }) %>
               </select>
 
-              <!-- Strap -->
+              
               <select name="strap" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
                 <option value="">Strap Material</option>
                 <% filtersAvailable.strap.forEach(strap => { %>
@@ -190,7 +190,7 @@
                 <% }) %>
               </select>
 
-              <!-- Material -->
+              
               <select name="material" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
                 <option value="">Material</option>
                 <% filtersAvailable.material.forEach(material => { %>
@@ -198,7 +198,7 @@
                 <% }) %>
               </select>
 
-              <!-- Case Size -->
+              
               <select name="caseSize" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
                 <option value="">Case Size</option>
                 <% filtersAvailable.caseSize.forEach(size => { %>
@@ -206,7 +206,7 @@
                 <% }) %>
               </select>
 
-              <!-- Hands Style -->
+              
               <select name="hands" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
                 <option value="">Hands Style</option>
                 <% filtersAvailable.hands.forEach(hands => { %>
@@ -214,7 +214,7 @@
                 <% }) %>
               </select>
 
-            <!-- Numerals -->
+            
               <select name="numerals" class="px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring text-base w-full min-w-0">
                 <option value="">Numerals</option>
                 <% filtersAvailable.numerals.forEach(numerals => { %>
@@ -253,9 +253,9 @@
           </form>
         </aside>
 
-        <!-- Right: Watch Grid -->
+        
         <div class="md:w-3/4 w-full flex flex-col">
-          <!-- Heading and Zoom Controls in same line -->
+          
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
             <h2
               class="text-2xl sm:text-3xl font-bold font-cinzel text-center tracking-wide mb-2 sm:mb-0"
@@ -267,7 +267,7 @@
           <% if (watches.length === 0) { %>
             <div class="text-center text-xl text-gray-400 mt-12">No watches found. Try adjusting your filters.</div>
           <% } else { %>
-          <!-- Watch Grid: 4 columns on xl, compact card and content -->
+          
           <div id="watch-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             <% watches.forEach(watch => { %>
               <div class="watch-card">
@@ -309,12 +309,9 @@
     </div>
   </div>
 
-  <!-- Footer -->
-<!-- ...existing code... -->
-
 <footer class="w-full bg-black bg-opacity-50 backdrop-blur-sm text-white px-6 py-10 mt-12 text-sm">
   <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 mb-6 text-center sm:text-left">
-    <!-- Left: Brand & Nav -->
+    
     <div>
       <h2 class="text-xl font-semibold mb-2 font-cinzel">TimeTurner</h2>
       <ul class="space-y-1">
@@ -326,7 +323,7 @@
         <li><a href="/blog" class="hover:underline">Blog</a></li>
       </ul>
     </div>
-    <!-- Center: Newsletter -->
+    
     <div>
       <h2 class="text-xl font-semibold mb-2 font-cinzel justify-center">Newsletter</h2>
       <p class="text-gray-300 mb-3 justify-center">Stay Updated on New Arrivals and Watch Trends.</p>
@@ -335,7 +332,7 @@
         <button type="submit" class="bg-white text-black font-semibold px-4 py-2 rounded hover:bg-gray-200">Subscribe</button>
       </form>
     </div>
-    <!-- Right: More -->
+    
     <div>
       <h2 class="text-xl font-semibold mb-2 font-cinzel">More</h2>
       <ul class="space-y-1">
@@ -344,14 +341,13 @@
       </ul>
     </div>
   </div>
-  <!-- Bottom Bar -->
+  
   <div class="border-t border-gray-500 pt-4 text-center text-xs text-gray-300">
     © 2025 <span class="font-semibold font-cinzel">TimeTurner</span>. All rights reserved.
   </div>
 </footer>
   <style>
-  /* Remove fixed card sizes, let Tailwind handle responsiveness */
-  /* Card: row on all screens, image left, content right */
+
 .watch-card {
   display: flex;
   flex-direction: column;
@@ -363,7 +359,7 @@
   margin-bottom: 1rem;
   min-width: 0;
   max-width: 100%;
-  height: 370px; /* or adjust as needed */
+  height: 370px;
 }
 
 .watch-img-container {
@@ -373,7 +369,7 @@
   justify-content: center;
   width: 100%;
   min-width: 0;
-  height: 180px; /* adjust as needed */
+  height: 180px; 
 }
 
 .watch-img-container a {
@@ -413,7 +409,6 @@
   margin-top: 1rem;
 }
 
-/* MOBILE: image left, all content and buttons stacked vertically on right */
 @media (max-width: 639px) {
   .watch-card {
     display: flex !important;
@@ -457,7 +452,6 @@
     font-size: 1.05rem !important;
     width: 100%;
   }
-  /* Stack buttons vertically below content, centered */
   .watch-card .flex {
     flex-direction: column !important;
     align-items: center !important;
@@ -477,7 +471,6 @@
   }
 }
 
-/* Keep filter panel background and blur always consistent */
   .custom-filter-bg {
     background: rgba(255,255,255,0.18) !important;
     backdrop-filter: blur(8px) !important;
@@ -497,7 +490,6 @@
   </style>
 
   <script>
-    // Hamburger menu logic
     const menuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const closeBtn = document.getElementById('close-mobile-menu');
@@ -514,7 +506,6 @@
       document.body.classList.remove('overflow-hidden');
     }
 
-    // Filter dropdown logic
     const filterBtn = document.getElementById('toggle-filter');
     const filterPanel = document.getElementById('filter-panel');
     let filterOpen = false;
@@ -535,7 +526,6 @@
       filterBtn.addEventListener('click', () => {
         if (!filterOpen) {
           showFilter();
-          // Add close button
           if (!document.getElementById('close-filter-panel')) {
             const closeBtn = document.createElement('button');
             closeBtn.id = 'close-filter-panel';
@@ -547,7 +537,6 @@
         }
       });
     }
-    // Hide filter panel when resizing to desktop
     window.addEventListener('resize', () => {
       if (window.innerWidth >= 768) {
         filterPanel.classList.remove('hidden', 'fixed', 'top-0', 'left-0', 'w-full', 'h-full', 'z-50', 'overflow-y-auto', 'max-h-screen', 'p-6', 'bg-white', 'bg-opacity-95');
@@ -556,16 +545,13 @@
         const closeBtn = document.getElementById('close-filter-panel');
         if (closeBtn) closeBtn.remove();
       } else {
-        // Only hide if not open
         if (!filterOpen) {
           filterPanel.classList.add('hidden');
         }
       }
     });
 
-    // Show all watches if no filters are applied
     document.getElementById('filter-form').addEventListener('submit', function(e) {
-      // If all filter fields are empty, reload page with no query params
       const form = e.target;
       const inputs = Array.from(form.elements).filter(el => el.tagName === 'SELECT' || el.tagName === 'INPUT');
       const hasValue = inputs.some(el => el.value && el.value !== '');
@@ -577,7 +563,6 @@
 
     
 
-    // Debugging: Log filters on submit
     document.getElementById('filter-form').addEventListener('submit', function(e) {
       const filters = {
         search: this.search.value,
@@ -668,7 +653,6 @@ document.querySelectorAll('.compare-toggle-btn').forEach(btn => {
   <script>
 document.querySelectorAll('#filter-form select').forEach(select => {
   select.addEventListener('change', function() {
-    // Gather current filter values
     const params = new URLSearchParams();
     document.querySelectorAll('#filter-form select').forEach(sel => {
       if (sel.value) params.append(sel.name, sel.value);
@@ -677,7 +661,6 @@ document.querySelectorAll('#filter-form select').forEach(select => {
     fetch('/api/filter-options?' + params.toString())
       .then(res => res.json())
       .then(filters => {
-        // For each filter dropdown, update its options
         Object.keys(filters).forEach(field => {
           const sel = document.querySelector(`#filter-form select[name="${field}"]`);
           if (sel) {
@@ -701,7 +684,6 @@ if (searchInput && watchGrid) {
   searchInput.addEventListener('input', function() {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => {
-      // Gather all filter values
       const params = new URLSearchParams();
       document.querySelectorAll('#filter-form select').forEach(sel => {
         if (sel.value) params.append(sel.name, sel.value);
@@ -711,7 +693,6 @@ if (searchInput && watchGrid) {
       fetch('/api/explore-search?' + params.toString())
         .then(res => res.json())
         .then(watches => {
-          // Render the watch grid
           if (watches.length === 0) {
             watchGrid.innerHTML = '<div class="text-center text-xl text-gray-400 mt-12">No watches found. Try adjusting your filters.</div>';
             return;
@@ -744,7 +725,7 @@ if (searchInput && watchGrid) {
               </div>
             </div>
           `).join('');
-          attachWishlistListeners(); // <-- Add this line!
+          attachWishlistListeners();
         });
     }, 300);
   });
@@ -755,7 +736,6 @@ const searchBox = document.getElementById("search-box");
 const suggestions = document.getElementById("suggestions");
 let timeout;
 
-// Autocomplete suggestions
 searchBox.addEventListener("input", function () {
   const query = this.value.trim();
   clearTimeout(timeout);
@@ -790,7 +770,6 @@ searchBox.addEventListener("input", function () {
   }, 250);
 });
 
-// Enter key triggers redirect
 searchBox.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
@@ -798,10 +777,8 @@ searchBox.addEventListener("keydown", (e) => {
   }
 });
 
-// Live filter update (inject filtered HTML)
 searchBox.addEventListener("input", function () {
   const query = this.value.trim();
-  // Gather all filter values
   const params = new URLSearchParams();
   document.querySelectorAll('#filter-form select').forEach(sel => {
     if (sel.value) params.append(sel.name, sel.value);

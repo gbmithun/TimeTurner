@@ -1,7 +1,7 @@
-// or wherever your /api/explore-search route is
+
 
 router.get('/api/explore-search', async (req, res) => {
-  // ...your filter logic...
+  
   const watches = await Watch.find({ /* ...filters... */ }).lean();
 
   let userWishlist = [];

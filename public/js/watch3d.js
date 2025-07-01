@@ -3,7 +3,6 @@ export function setupWatch3D(THREE, OrbitControls, GLTFLoader) {
   let dialMesh = null, strapMesh = null, crownMesh = null;
   let tooltipDiv = null;
 
-  // Utility: Show tooltip/arrow overlay
   function showTooltip(x, y, label) {
     if (!tooltipDiv) {
       tooltipDiv = document.createElement('div');
